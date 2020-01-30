@@ -1,0 +1,50 @@
+<h2 >第一次購物</h2>
+<a href="index.php?do=reg">
+    <img src="./icon/0413.jpg" alt="">
+</a>
+<h2 >會員登入</h2>
+<table class="all">
+    <tr>
+        <td class="tt ct">帳號</tdcla>
+        <td class="pp"><input type="text" name="acc" id="acc" ></td>
+    </tr>
+    <tr>
+        <td class="tt ct">密碼</td>
+        <td class="pp"><input type="password" name="pw" id="pw"></td>
+    </tr>
+    <tr>
+        <td class="tt ct">驗證密碼</td>
+        <td class="pp">
+        <?php
+            $a=rand(10,99);
+            $b=rand(10,99);
+            $_SESSION['num']=$a+$b;
+            echo $a."+".$b."=";
+        ?>
+        
+        <input type="number" name="num" id="num"></td>
+    </tr>
+</table>
+<div class="ct"><button onclick="login('member')">確認</button></div>
+<script>
+function login(table){
+    let num=$("#num").val();
+    $.get("./api/chknum.php",{num},function(res){
+        if(res=='1'){
+            // console.log("YES")
+            let acc=$("#acc").val();
+            let pw=$("#pw").val();
+            $.get("./api/chkpw.php",{table,acc,pw},function(res){
+                if(res=='1'){
+                   location.href="index.php";
+                }else{
+                    alert("帳號或密碼有誤");
+                }
+            })
+        }else{
+            alert("對不起，您輸入驗證碼有誤請你重新登入")
+        }
+    })
+}
+
+</script>
